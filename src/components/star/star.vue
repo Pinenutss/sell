@@ -1,6 +1,6 @@
 <template>
 <div class="star" :class="starType">
-  <span v-for="itemClass in itemClasses" :class="itemClass" class="star-item"></span>
+  <span v-for="itemClass in itemClasses" :class="itemClass" class="star-item" track-by="$index"></span>
 </div>
 </template>
 
@@ -49,7 +49,6 @@ export default {
   .star-item
     display: inline-block
     background-repeat: no-repeat
-
   &.star-48
     .star-item
       width: 20px
@@ -63,7 +62,7 @@ export default {
       &.half
         bg-image('star48_half')
       &.off
-        ba-image('star48_off')
+        bg-image('star48_off')
   &.star-36
     .star-item
       width: 15px
