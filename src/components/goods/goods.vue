@@ -2,7 +2,7 @@
 <div class="goods">
   <div class="meun-wrapper" v-el:meun-wrapper>
     <ul>
-      <li v-for="item in goods" class="menu-item" :class="{'current':currentIndex===$index}">
+      <li v-for="item in goods" class="menu-item" :class="{'current':currentIndex===$index}" @click="selectMenu($index,$event)">
         <span class="text border-1px">
           <span v-show="item.type>0" class="icon" :class="classMap[item.type]"></span>{{item.name}}
         </span>
@@ -35,14 +35,16 @@
       </li>
     </ul>
   </div>
+  <shopcart :delivery_price="seller.deliveryPrice" :minp_rice="seller.inPrice"></shopcart>
 </div>
 </template>
 
 <script type="text/ecmascript-6">
 import BScroll from 'better-scroll';
+import shopcart from 'components/shopcart/shopcart';
 const ERR_OK = 0;
 export default {
-  pros: {
+  props: {
     seller: {
       type: Object
     }
@@ -51,7 +53,7 @@ export default {
     return {
       goods: [],
       listHeight: [],
-      scollY: 0
+      scrollY: 0
     };
   },
   computed: {
@@ -59,8 +61,7 @@ export default {
       for (let i = 0; i < this.listHeight.length; i++) {
         let height1 = this.listHeight[i];
         let height2 = this.listHeight[i + 1];
-        console.log(i);
-        if ((this.scrollY >= height1 && this.scrollY < height2)) {
+        if (!height2 || (this.scrollY >= height1 && this.scrollY < height2)) {
           return i;
         }
       }
@@ -83,8 +84,18 @@ export default {
     });
   },
   methods: {
+    selectMenu(index, event) {
+      if (!event._constructed) {
+        return;
+      }
+      let foodList = this.$els.foodsWrapper.getElementsByClassName('food-list-hook');
+      let el = foodList[index];
+      this.foodsScroll.scrollToElement(el, 300);
+    },
     _initScroll() {
-      this.meunScroll = new BScroll(this.$els.meunWrapper, {});
+      this.meunScroll = new BScroll(this.$els.meunWrapper, {
+        click: true
+      });
 
       this.foodsScroll = new BScroll(this.$els.foodsWrapper, {
         probeType: 3
@@ -93,6 +104,7 @@ export default {
       this.foodsScroll.on('scroll', (pos) => {
         this.scrollY = Math.abs(Math.round(pos.y));
       });
+      console.log(this.scrollY);
     },
     _calculateHeight() {
       let foodList = this.$els.foodsWrapper.getElementsByClassName('food-list-hook');
@@ -104,6 +116,9 @@ export default {
         this.listHeight.push(height);
       }
     }
+  },
+  components: {
+    shopcart
   }
 };
 </script>
