@@ -18,7 +18,7 @@
 
     <div class="content-right">
       <div class="pay" :class="payClass">
-        {{payDesc}} 最少 {{min_price}}
+        {{payDesc}}
       </div>
     </div>
   </div>
@@ -32,7 +32,7 @@ export default {
       type: Array,
       default () {
         return [{
-          price: 3,
+          price: 10,
           count: 1
         }];
       }
@@ -72,7 +72,7 @@ export default {
       }
     },
     payClass() {
-      if (this.totalPrice < this.minPrice) {
+      if (this.totalPrice > this.minPrice) {
         return 'not-enough';
       } else {
         return 'enough';
