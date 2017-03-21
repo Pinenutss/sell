@@ -15,7 +15,7 @@
         另需配送费{{delivery_price}}元
       </div>
     </div>
-
+    <!-- <> -->
     <div class="content-right">
       <div class="pay" :class="payClass">
         {{payDesc}}
