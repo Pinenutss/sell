@@ -19,6 +19,7 @@ export default {
       if (!event._constructed) {
         return;
       }
+      console.log(this.food);
       console.log(this.food.count);
       if (!this.food.count) {
         Vue.set(this.food, 'count', 1);
@@ -30,9 +31,7 @@ export default {
       if (!event._constructed) {
         return;
       }
-      if (this.food.count <= 0) {
-        Vue.set(this.food, 'count', 0);
-      } else {
+      if (this.food.count) {
         this.food.count--;
       }
     }
